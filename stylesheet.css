@@ -1,0 +1,39 @@
+/*CSS Stylesheet*/
+
+/** {border: 1px solid black;}*/
+
+body {
+    margin: 0;
+ backgound-color: #1B8CAA;
+
+}
+img {
+    max-width: 100%;
+}
+
+#site{
+   background:#3B949D;  
+}
+
+#dutchman{
+    width: 400px;
+    flex-direction: row;
+   
+}
+
+.info{
+display:flex;
+    width: 100%;
+    background: #3B949D;
+}
+
+#title{
+    flex-direction: row;
+    font-family: spook;
+    color: black;
+    text-shadow: 2px 2px 8px #33CC00;
+    font-size: 80px;
+}
+
+
+

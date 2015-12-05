@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" type="text/css" href="stylesheet.css">
+      <style>
+         @font-face { font-family: spook; src: url('SpookyMagic.ttf'); } 
+    </style>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0;}
+      #map { height: 600px; width:800px; border-radius:20px; margin:0 auto; border: 8px dotted #33CC00; }
+    </style>
+      <script type="text/javascript" src="jquery-1.11.3.js"></script>
+  </head>
+  <body>
+      <div id="site">
+        <div class="info">
+      <div id="dutchman"> <img src="img/dutchman.png"></div>
+            <span id="title"> The Dutchman's<br> Treasure Map </span>
+             </div>
+    <div id="map"></div>
+      </div>
+    <script type="text/javascript">
+            
+         var audio = new Audio('dutchTreasure.wav');
+  var plastico = new Audio('plastic.mp3');
+    var goldio = new Audio('gold.mp3');   
+        
+        
+        function yay() {
+            
+         //  alert('yes!');  
+            plastico.play();
+        }
+        
+           function woo() {
+            
+         //  alert('yes!');  
+            goldio.play();
+        }
+        
+var map;
+function initMap() {
+    
+    var customMapType = new google.maps.StyledMapType([
+      {
+        stylers: [
+          {color: '#C4B895'},
+          {visibility: 'simplified'},
+//          {gamma: 0.5},
+          {weight: 0.1}
+        ]
+      },
+      {
+        elementType: 'labels',
+        stylers: [{visibility: 'off'}]
+      },
+      {
+        featureType: 'water',
+        stylers: [{color: '#3B949D'}]
+      }
+    ], {
+      name: 'Custom Style'
+  });
+  var customMapTypeId = 'custom_style';
+    
+   var lineSymbol = {
+    path: 'M 0,-1, 0,1,',
+    strokeOpacity: 1,
+    scale: 4
+  }; 
+    
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -21.106281, lng: 55.642319},
+    zoom: 10,
+    disableDefaultUI: true,
+      scrollwheel: false,
+      mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.TERRAIN, customMapTypeId]
+    }
+  });
+
+  map.mapTypes.set(customMapTypeId, customMapType);
+  map.setMapTypeId(customMapTypeId);
+
+    var treasureMapCoordinates = [
+    {lat: -20.896022, lng: 55.441132},
+    {lat: -21.048618, lng: 55.233765},
+    {lat: -21.169045, lng: 55.334702},
+    {lat: -21.129341, lng:55.414352},
+    {lat: -21.190814, lng:55.476151},
+    {lat: -21.233062, lng:55.397873},
+    {lat: -21.367408, lng: 55.615540},
+    {lat: -21.163923, lng: 55.805054},
+    {lat: -20.896022, lng: 55.441132}
+  ];
+    
+     var line = new google.maps.Polyline({
+    path: treasureMapCoordinates,
+    strokeOpacity: 0,
+    icons: [{
+      icon: lineSymbol,
+      offset: '0',
+      repeat: '20px'
+    }],
+    map: map
+  });
+  
+   
+    
+     var contentString = '<div id="content">'+
+      '<h1 id="firstHeading" class="firstHeading style="font">THE DUTCHMANS TREASURE</h1>'+
+      '<div id="bodyContent">'+
+      '<p> ' +
+      ' Congratulations! You are a REAL Pirate!'+
+      '</p>'+
+     '<p style="display:inline">' +
+      '<a href="#" id="plastic" onClick="yay();"> <img  src="img/plastic.png"></a> <a href="#" id="gold" onClick="woo();"> <img  src="img/gold.png"></a> '+
+      '</p>'+
+      '</div>'+
+      '</div>';
+ 
+    var treeString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">THE TREE</h1>'+
+      '<div id="bodyContent">'+
+      '<p> Look for the Deacons Goose ' +
+      'thru the fork in the '+
+      'old tree and head that way.'+
+      ''+
+      '</p>'+
+    '<img src="img/fork.png">'+
+      '</div>'+
+      '</div>';
+     
+    var brigString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">THE BRIG</h1>'+
+      '<div id="bodyContent">'+
+      '<p> One of your shipmates ' +
+      'has been a bad pirate! '+
+      'Send him to the brig!'+
+     '<img src="img/brig.jpg">'+
+      ''+
+      '</p>'+
+      '</div>'+
+      '</div>';
+    
+     var duckString = '<div id="content">'+
+      '<div class="infoBox">'+
+        '<h1>THE DEACONS GOOSE </h1>'+
+         '<p> They do not really address this in the episode</p>'+
+         '<p> but HONK HONK it is a goose</p>'+
+      '</div>'+
+      '</div>';
+    
+     var sharkString = '<div id="content">'+
+      '<div class="infoBox">'+
+        '<h1>SHARK INFESTED WATERS </h1>'+
+         '<p> They do not really address this in the episode</p>'+
+         '<p> But oOooOOooo scary!</p>'+
+         '<p> Fun Fact: I really like sharks!</p>'+
+         '<p> This picture was taken near my house. Mom would not let me go be their friend. </p>'+
+         '<img src="img/shark.jpg">'+
+      '</div>'+
+      '</div>';
+    
+    var shipString = '<div id="content">'+
+      '<div class="infoBox">'+
+        '<img src="img/shipShape.jpg">'+
+      '</div>'+
+      '</div>';
+    
+   
+    
+   var X = {
+    url: 'img/X.png'
+       
+  };
+   
+    
+ var infoX = new google.maps.InfoWindow({
+    content: contentString
+     
+  });
+ 
+  var marker = new google.maps.Marker({
+    position: {lat: -21.115141, lng: 55.536384},
+    icon: X,
+    map: map
+  });
+     google.maps.event.addListener(marker, 'click', function() {
+                if(!marker.open){
+                    infoX.open(map,marker);
+                    marker.open = true;
+                    audio.play();
+                }
+                else{
+                    infoX.close();
+                    marker.open = false;
+                }
+        
+     google.maps.event.addListener(map, 'click', function() {
+                    infoX.close();
+                    marker.open = false;
+                });
+            });
+
+    
+    
+    var brig = {
+        url: 'img/brig.ico.png'
+    };
+     var infoBrig = new google.maps.InfoWindow({
+    content: brigString,
+         maxWidth:200
+  });
+    var markerTwo = new google.maps.Marker({
+        position: {lat: -21.389147, lng: 55.573826},
+        icon: brig,
+        map: map
+    });
+    google.maps.event.addListener(markerTwo, 'click', function() {
+                if(!markerTwo.open){
+                    infoBrig.open(map,markerTwo);
+                    markerTwo.open = true;
+                }
+                else{
+                    infoBrig.close();
+                    markerTwo.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infoBrig.close();
+                    markerTwo.open = false;
+                });
+            });
+    
+     var duck = {
+        url: 'img/duck.ico.png'
+    };
+     var infoDuck = new google.maps.InfoWindow({
+    content: duckString
+  });
+    var markerThree = new google.maps.Marker({
+        position: {lat: -21.052463, lng: 55.228958},
+        icon: duck,
+        map: map
+    });
+    google.maps.event.addListener(markerThree, 'click', function() {
+                if(!markerThree.open){
+                    infoDuck.open(map,markerThree);
+                    markerThree.open = true;
+                }
+                else{
+                    infoDuck.close();
+                    markerThree.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infoDuck.close();
+                    markerThree.open = false;
+                });
+            });
+    
+     var shark = {
+        url: 'img/shark.ico.png'
+    };
+     var infoShark = new google.maps.InfoWindow({
+    content: sharkString
+  });
+    var markerFour = new google.maps.Marker({
+        position: {lat: -20.912700, lng: 55.473404},
+        icon: shark,
+        map: map
+    });
+    google.maps.event.addListener(markerFour, 'click', function() {
+                if(!markerFour.open){
+                    infoShark.open(map,markerFour);
+                    markerFour.open = true;
+                }
+                else{
+                    infoShark.close();
+                    markerFour.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infoShark.close();
+                    markerFour.open = false;
+                });
+            });
+    
+     var tree = {
+        url: 'img/tree.ico.png'
+    };
+    var infoTree = new google.maps.InfoWindow({
+    content: treeString,
+        maxWidth: 300
+  });
+    var markerFive = new google.maps.Marker({
+        position: {lat: -21.204898, lng: 55.805740},
+        icon: tree,
+        map: map
+    });
+    google.maps.event.addListener(markerFive, 'click', function() {
+                if(!markerFive.open){
+                    infoTree.open(map,markerFive);
+                    markerFive.open = true;
+                }
+                else{
+                    infoTree.close();
+                    markerFive.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infoTree.close();
+                    markerFive.open = false;
+                });
+            });
+    
+     var ship = {
+        url: 'img/ship.png'
+    };
+     var infoShip = new google.maps.InfoWindow({
+    content: shipString
+  });
+    var markerSix = new google.maps.Marker({
+        position: {lat: -21.002471, lng: 56.053619},
+        icon: ship,
+        map: map
+    });
+    google.maps.event.addListener(markerSix, 'click', function() {
+                if(!markerSix.open){
+                    infoShip.open(map,markerSix);
+                    markerSix.open = true;
+                }
+                else{
+                    infoShip.close();
+                    markerSix.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infoShip.close();
+                    markerSix.open = false;
+                });
+            });
+    
+}
+//closes map init
+
+
+
+    </script>
+          
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp-5k_kvQ2P9Q7b0maNNxp-9TrRdjoLnQ&callback=initMap">
+    </script>
+      
+  </body>
+</html>   
